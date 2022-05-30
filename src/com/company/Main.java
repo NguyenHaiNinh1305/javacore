@@ -48,6 +48,7 @@ public class Main {
                     System.out.println("finish");
                     return;
                 default:
+                    System.out.println("Please re-type correct selection");
                     break;
             }
         } while (choose != 0);
