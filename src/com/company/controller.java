@@ -33,15 +33,19 @@ public class controller {
                 switch (choose) {
                     case 1:
                         iStudentSer.returnStudentList();
+                        iStudentSer.recordFile();
                         iStudentSer.showInfoStudent(iStudentSer.getStudents());
+
                         break;
                     case 2:
                         isubjectITF.returnSubjectList();
+                        isubjectITF.recordFile();
                         isubjectITF.showInfoSubject(isubjectITF.getSubjects());
                         break;
                     case 3:
                         try {
                             gsmInterface.inputMark();
+                            gsmInterface.recordFile();
                             gsmInterface.showInfoGSM(gsmInterface.getGpaManagements());
                         } catch (IOException e) {
                             e.printStackTrace();
