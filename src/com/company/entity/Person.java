@@ -14,6 +14,12 @@ public class Person implements PersonInterface {
     public Person() {
     }
 
+    public Person(String fullName, String address, String phoneNumber) {
+        this.fullName = fullName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getFullName() {
         return fullName;
     }
@@ -41,9 +47,9 @@ public class Person implements PersonInterface {
     @Override
     public String toString() {
         return
-                "fullName='" + fullName + '\'' +
-                        ", address='" + address + '\'' +
-                        ", phoneNumber='" + phoneNumber + '\''
+                "fullName=" + fullName +
+                        ", address=" + address +
+                        ", phoneNumber=" + phoneNumber
                 ;
     }
 
