@@ -1,2 +1,0 @@
-studentId=10000, className=1
-studentId=10001, className=1

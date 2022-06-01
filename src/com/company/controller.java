@@ -25,21 +25,31 @@ public class controller {
     public void processTask() {
 
         Scanner sc = new Scanner(System.in);
-        int choose;
+        int choose =0;
         do {
-            choose = sc.nextInt();
+            showMenu();
             try {
-                showMenu();
+                choose = sc.nextInt();
+            } catch (Exception e) {
+                System.err.println("Invalid number");
+            }
                 switch (choose) {
                     case 1:
                         iStudentSer.returnStudentList();
-                        iStudentSer.recordFile();
+                        try {
+                            iStudentSer.recordFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         iStudentSer.showInfoStudent(iStudentSer.getStudents());
-
                         break;
                     case 2:
                         isubjectITF.returnSubjectList();
-                        isubjectITF.recordFile();
+                        try {
+                            isubjectITF.recordFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         isubjectITF.showInfoSubject(isubjectITF.getSubjects());
                         break;
                     case 3:
@@ -57,6 +67,17 @@ public class controller {
                     case 5:
                         gsmInterface.calcAvgmark();
                         break;
+                    case 6:
+                        iStudentSer.readFile();
+                        iStudentSer.showInfoStudent(iStudentSer.getStudents());
+                        break;
+                    case 7:
+                        isubjectITF.readFile();
+                        isubjectITF.showInfoSubject(isubjectITF.getSubjects());
+                        break;
+                    case 8:
+                        gsmInterface.readFile();
+                        break;
                     case 0:
                         System.out.println("finish");
                         return;
@@ -64,16 +85,15 @@ public class controller {
                         System.out.println("Please re-type correct selection");
                         break;
                 }
-            } catch (Exception e) {
-                System.err.println("Invalid number");
-            }
+
         } while (choose != 0);
     }
 
     public static void showMenu() {
         System.out.println("/****************************************/");
         System.out.println("1. Add student.\n" + "2. Add subject.\n" + "3. Input mark.\n"
-                + "4. Sort Gpa managements from student name.\n" + "5. Calculate average mark.\n" + "0. Exit.");
+                + "4. Sort Gpa managements from student name.\n" +  "5. Calculate average mark.\n" +"6. Load all students from file.\n"
+                + "7. Load all subjects form file.\n"  + "8. Load all Gpa managements form file.\n"+ "0. Exit.");
         System.out.println("/****************************************/");
     }
 

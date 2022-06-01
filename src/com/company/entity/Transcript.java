@@ -23,5 +23,10 @@ public class Transcript {
         this.subject = subject;
     }
 
-
+    @Override
+    public String toString() {
+        return
+                ", mark=" + mark +
+                ", "+ subject;
+    }
 }

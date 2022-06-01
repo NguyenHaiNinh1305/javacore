@@ -30,25 +30,45 @@ public class SubjectImpl implements SubjectITF {
         return subjects;
     }
 
+    public void setLengthSubject() {
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream("subjects.txt");
+            Scanner sc = new Scanner(fileInputStream);
+            if (sc.hasNext()) {
+                int count = 0;
+                while (sc.hasNextLine() && !(sc.nextLine()).equals("")) {
+                    count++;
+                }
+                subjects = new Subject[count];
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void readFile() {
         System.out.println("Loading subjects...");
         FileInputStream fileInputStream = null;
+        setLengthSubject();
         try {
-            fileInputStream = new FileInputStream("subject.txt");
+            fileInputStream = new FileInputStream("subjects.txt");
             Scanner sc = new Scanner(fileInputStream);
             if (sc.hasNext()) {
                 int i = 0;
                 while (sc.hasNextLine()) {
                     String line = sc.nextLine();
-                    String [] arrSubject = getEleOfSubject(line);
+                    if (line.equals("")) {
+                        break;
+                    }
+                    String[] arrSubject = getEleOfSubject(line);
                     int id = Integer.parseInt(arrSubject[0]);
                     String name = arrSubject[1];
-                    String type = arrSubject[2];
+                    String type = arrSubject[3];
                     TypeSubject typeSubject = TypeSubject.valueOf(type);
-                    int creadits = Integer.parseInt(arrSubject[3]);
-                    Subject subject = new Subject(id,name,creadits,typeSubject);
+                    int creadits = Integer.parseInt(arrSubject[2]);
+                    Subject subject = new Subject(id, name, creadits, typeSubject);
                     subjects[i] = subject;
                     i++;
                 }
@@ -61,7 +81,6 @@ public class SubjectImpl implements SubjectITF {
             try {
                 fileInputStream.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -69,11 +88,11 @@ public class SubjectImpl implements SubjectITF {
 
     }
 
-    public String[] getEleOfSubject(String subject){
-        String [] arrSubject = subject.split(", ");
-        for(int i = 0; i<arrSubject.length;i++){
-            String [] subArr = arrSubject[i].split("=");
-            arrSubject[i] = subArr[subArr.length-1];
+    public String[] getEleOfSubject(String subject) {
+        String[] arrSubject = subject.split(", ");
+        for (int i = 0; i < arrSubject.length; i++) {
+            String[] subArr = arrSubject[i].split("=");
+            arrSubject[i] = subArr[subArr.length - 1];
         }
         return arrSubject;
     }
@@ -81,7 +100,7 @@ public class SubjectImpl implements SubjectITF {
     @Override
     public void recordFile() throws IOException {
         File file = new File("subjects.txt");
-        FileOutputStream fos = new FileOutputStream(file);
+        FileOutputStream fos = new FileOutputStream(file, true);
         for (Subject subject : subjects) {
             String str = subject.toString();
             try {

@@ -1,7 +1,5 @@
 package com.company.entity;
 
-import java.util.Arrays;
-
 public class GpaManagement {
 
     private Student student;
@@ -39,10 +37,14 @@ public class GpaManagement {
 
     @Override
     public String toString() {
-        return  student.toString() +
-                ", transcripts=" + Arrays.toString(transcripts) +
-                '}';
+        return  student.toString() + toStringTrans();
     }
 
-
+    public String toStringTrans() {
+        String str = null;
+        for (int i = 0; i < transcripts.length; i++) {
+            str += transcripts[i].toString();
+        }
+        return str;
+    }
 }

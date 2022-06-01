@@ -13,6 +13,8 @@ public interface GSMInterface {
 
     void sortGpaTranscriptFromSubjectname();
 
+    void readFile();
+
     void recordFile() throws IOException;
 
     void calcAvgmark();

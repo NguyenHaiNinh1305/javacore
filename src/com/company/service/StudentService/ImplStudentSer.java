@@ -14,8 +14,6 @@ public class ImplStudentSer implements IStudentSer {
         return students;
     }
 
-
-
     @Override
     public Student[] returnStudentList() {
         Scanner sc;
@@ -25,7 +23,7 @@ public class ImplStudentSer implements IStudentSer {
         students = new Student[n];
         for (int i = 0; i < n; i++) {
             Student student = new Student();
-            student.setStudentId(student.getStudentId() + i);
+            student.setStudentId(findPosForId() + i + 10000);
             student.input();
             students[i] = student;
         }
@@ -33,17 +31,22 @@ public class ImplStudentSer implements IStudentSer {
     }
 
 
+
     @Override
     public void readFile() {
         System.out.println("Loading student...");
         FileInputStream fileInputStream = null;
+        setLengthStudents();
         try {
             fileInputStream = new FileInputStream("students.txt");
             Scanner sc = new Scanner(fileInputStream);
             if (sc.hasNext()) {
                 int i = 0;
-                while (sc.hasNextLine()) {
+                while (sc.hasNextLine()){
                     String line = sc.nextLine();
+                    if(line.equals("")){
+                        break;
+                    }
                     String[] arrStudent = getEleOfStudents(line);
                     int id = Integer.parseInt(arrStudent[0]);
                     String name = arrStudent[1];
@@ -67,10 +70,42 @@ public class ImplStudentSer implements IStudentSer {
                 e.printStackTrace();
             }
         }
-
-
     }
 
+    public void setLengthStudents() {
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream("students.txt");
+            Scanner sc = new Scanner(fileInputStream);
+            if (sc.hasNext()) {
+                int count = 0;
+                while (sc.hasNextLine() && !(sc.nextLine()).equals("")) {
+                    count++;
+                }
+                students = new Student[count];
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int findPosForId() {
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream("students.txt");
+            Scanner sc = new Scanner(fileInputStream);
+            if (sc.hasNext()) {
+                int count = 0;
+                while (sc.hasNextLine() && !(sc.nextLine()).equals("")) {
+                    count++;
+                }
+                return count;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
     public String[] getEleOfStudents(String student) {
         String[] arrStudent = student.split(", ");
         for (int i = 0; i < arrStudent.length; i++) {
@@ -83,7 +118,7 @@ public class ImplStudentSer implements IStudentSer {
     @Override
     public void recordFile() throws IOException {
         File file = new File("students.txt");
-        FileOutputStream fos = new FileOutputStream(file);
+        FileOutputStream fos = new FileOutputStream(file, true);
         for (Student student : students) {
             String str = student.toString();
             try {
@@ -106,6 +141,8 @@ public class ImplStudentSer implements IStudentSer {
         }
 
         for (int i = 0; i < students.length; i++) {
+            Student student = new Student();
+            student = students[i];
             System.out.println(students[i].toString());
         }
     }
