@@ -3,7 +3,6 @@ package com.company.service.gpaStudentManagement;
 import com.company.entity.GpaManagement;
 import com.company.entity.Subject;
 import com.company.entity.Transcript;
-import com.company.entity.TypeSubject;
 import com.company.service.StudentService.IStudentSer;
 import com.company.service.StudentService.ImplStudentSer;
 import com.company.service.subjectService.SubjectITF;
@@ -86,10 +85,14 @@ public class GSMImpl implements GSMInterface {
         boolean check = false;
         sc = new Scanner(System.in);
         do {
-            int num = sc.nextInt();
-            if (num <= isubjectITF.getSubjects().length) {
-                check = true;
-                return num;
+            try {
+                int num = sc.nextInt();
+                if (num <= isubjectITF.getSubjects().length) {
+                    check = true;
+                    return num;
+                }
+            } catch (Exception e){
+                typeNumOfSubjectWantToinputMark();
             }
         } while (check == false);
         return 0;
@@ -117,28 +120,90 @@ public class GSMImpl implements GSMInterface {
                 System.out.println("Not found subject id. Please re-type!");
             } catch (Exception e) {
                 System.err.println("invalid number");
+                getSubjectFromId();
             }
         } while (check == false);
         return null;
     }
 
+    public String [] readGpaListFromFile(){
+        System.out.println("Loading Gpa lists...");
+        FileInputStream fileInputStream = null;
+        setLengthGsm();
+        try {
+            String [] gpaEle = new String[getLengthGms()];
+            fileInputStream = new FileInputStream("transcripts.txt");
+            Scanner sc = new Scanner(fileInputStream);
+            if (sc.hasNext()) {
+                int i = 0;
+                while (sc.hasNextLine()) {
+                    String line = sc.nextLine();
+                    if (line.equals("")) {
+                        break;
+                    } else{
+                        gpaEle[i] = line;
+                        i++;
+                    }
 
+                }
+                return gpaEle;
+            } else {
+                System.out.println("(empty)");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fileInputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
     @Override
     public void sortGpaTranscriptFromStudentname() {
-        if (gpaManagements == null) {
+        String [] gpaListFromFile =readGpaListFromFile();
+        if (gpaListFromFile == null) {
             System.out.println("please input mark first");
         }
-        for (int i = 0; i < gpaManagements.length - 1; i++) {
+
+        for (int i = 0; i < gpaListFromFile.length - 1; i++) {
+            String studentName = gpaListFromFile[i].split(", ")[1].split("=")[gpaListFromFile[i].split(", ")[1].split("=").length-1];
             int minPos = i;
-            for (int j = i + 1; j < gpaManagements.length; j++) {
-                if (gpaManagements[j].getStudent().getFullName().compareTo(gpaManagements[minPos].getStudent().getFullName()) > 0) {
+            for (int j = i + 1; j < gpaListFromFile.length; j++) {
+                String studentName2 = gpaListFromFile[j].split(", ")[1].split("=")[gpaListFromFile[i].split(", ")[1].split("=").length-1];
+                if (studentName.compareTo(studentName2) > 0) {
                     minPos = j;
                 }
             }
-            GpaManagement temp = gpaManagements[minPos];
-            gpaManagements[minPos] = gpaManagements[i];
-            gpaManagements[i] = temp;
+            String  temp = gpaListFromFile[minPos];
+            gpaListFromFile[minPos] = gpaListFromFile[i];
+            gpaListFromFile[i] = temp;
+
+            File file = new File("transcripts.txt");
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            for (String gpaManagement : gpaListFromFile) {
+                String str = gpaManagement;
+                try {
+                    fos.write(str.getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    fos.write("\n".getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+        System.out.println("Saving to file...\r\n" + "Bye!");
     }
 
     @Override
@@ -158,7 +223,7 @@ public class GSMImpl implements GSMInterface {
 
     @Override
     public void readFile() {
-        System.out.println("Loading subjects...");
+        System.out.println("Loading Gpa lists...");
         FileInputStream fileInputStream = null;
         setLengthGsm();
         try {
@@ -182,7 +247,6 @@ public class GSMImpl implements GSMInterface {
             }
         }
 
-
     }
 
     public void setLengthGsm() {
@@ -200,6 +264,24 @@ public class GSMImpl implements GSMInterface {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getLengthGms() {
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream("transcripts.txt");
+            Scanner sc = new Scanner(fileInputStream);
+            if (sc.hasNext()) {
+                int count = 0;
+                while (sc.hasNextLine() && !(sc.nextLine()).equals("")) {
+                    count++;
+                }
+                return count;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 

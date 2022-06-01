@@ -1,0 +1,3 @@
+studentId=10000, fullName=anh, address=1, phoneNumber=1, className=1null, mark=1.0, subjectId=10000, subjectName=1, creadits=1, typeSubject=generalSubject
+studentId=10001, fullName=banh, address=1, phoneNumber=1, className=2null, mark=5.0, subjectId=10000, subjectName=1, creadits=1, typeSubject=generalSubject
+studentId=10000, fullName=canh, address=1, phoneNumber=1, className=1null, mark=4.0, subjectId=10000, subjectName=1, creadits=1, typeSubject=generalSubject
