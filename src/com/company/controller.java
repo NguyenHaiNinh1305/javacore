@@ -25,11 +25,12 @@ public class controller {
     public void processTask() {
 
         Scanner sc = new Scanner(System.in);
-        int choose;
+        int choose =0;
         do {
-            choose = sc.nextInt();
+
             try {
                 showMenu();
+                choose = sc.nextInt();
                 switch (choose) {
                     case 1:
                         iStudentSer.returnStudentList();
