@@ -62,7 +62,7 @@ public class Subject {
                 System.out.println("Input number of creadits: ");
                 Scanner sc;
                 sc = new Scanner(System.in);
-                int ab = sc.nextInt();
+                creadits = sc.nextInt();
                 check = true;
             } catch (Exception e) {
                 System.err.println("invalid number");

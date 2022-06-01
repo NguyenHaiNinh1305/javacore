@@ -23,13 +23,29 @@ public class SubjectImpl implements SubjectITF {
         subjects = new Subject[n];
         for (int i = 0; i < n; i++) {
             Subject subject = new Subject();
-            subject.setSubjectId(subject.getSubjectId() + i);
+            subject.setSubjectId(findPosForId() +10000 + i);
             subject.inputSubjectInfo();
             subjects[i] = subject;
         }
         return subjects;
     }
-
+    public int findPosForId() {
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream("subjects.txt");
+            Scanner sc = new Scanner(fileInputStream);
+            if (sc.hasNext()) {
+                int count = 0;
+                while (sc.hasNextLine() && !(sc.nextLine()).equals("")) {
+                    count++;
+                }
+                return count;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
     public void setLengthSubject() {
         FileInputStream fileInputStream = null;
         try {

@@ -125,7 +125,7 @@ public class GSMImpl implements GSMInterface {
 
     @Override
     public void sortGpaTranscriptFromStudentname() {
-        if(gpaManagements == null){
+        if (gpaManagements == null) {
             System.out.println("please input mark first");
         }
         for (int i = 0; i < gpaManagements.length - 1; i++) {
