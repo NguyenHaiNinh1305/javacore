@@ -66,7 +66,7 @@ public class Controller {
                     System.out.println("Please re-type correct selection");
                     break;
             }
-    } while(choose !=0);
+    } while(choose !=10);
 }
 
     public static void showMenu() {
