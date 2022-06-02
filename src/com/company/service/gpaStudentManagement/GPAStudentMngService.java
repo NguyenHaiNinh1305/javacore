@@ -10,7 +10,7 @@ import com.company.service.subjectService.SubjectService;
 import com.company.utils.DataUtil;
 import com.company.utils.InputNumberUtil;
 
-public class GPAStudentMngService implements GSMInterface {
+public class GPAStudentMngService {
 	public static GpaManagement[] gpaManagements;
 	public static final String FILE_NAME = "transcripts.txt";
 
