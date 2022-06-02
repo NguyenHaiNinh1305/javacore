@@ -1,1 +1,0 @@
-subjectId=10000, subjectName=1, creadits=1, typeSubject=generalSubject

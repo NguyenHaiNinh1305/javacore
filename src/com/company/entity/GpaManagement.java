@@ -1,8 +1,15 @@
 package com.company.entity;
 
-public class GpaManagement {
+import java.io.Serializable;
+import java.util.Arrays;
 
-    private Student student;
+public class GpaManagement implements Serializable {
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Student student;
     private Transcript[] transcripts;
 
     public GpaManagement(Student student, Transcript[] transcripts) {
@@ -37,14 +44,9 @@ public class GpaManagement {
 
     @Override
     public String toString() {
-        return  student.toString() + toStringTrans();
-    }
-
-    public String toStringTrans() {
-        String str = null;
-        for (int i = 0; i < transcripts.length; i++) {
-            str += transcripts[i].toString();
-        }
-        return str;
+        return "GpaManagement{" +
+                "student=" + student +
+                ", transcripts=" + Arrays.toString(transcripts) +
+                '}';
     }
 }

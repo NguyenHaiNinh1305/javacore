@@ -1,6 +1,8 @@
 package com.company.entity;
 
-public enum TypeSubject {
+import java.io.Serializable;
+
+public enum TypeSubject implements Serializable{
 
     generalSubject, basicSubject, specializedSubject
 }

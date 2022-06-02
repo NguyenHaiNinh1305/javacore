@@ -1,101 +1,79 @@
 package com.company;
 
-import com.company.service.StudentService.IStudentSer;
-import com.company.service.StudentService.ImplStudentSer;
-import com.company.service.gpaStudentManagement.GSMImpl;
-import com.company.service.gpaStudentManagement.GSMInterface;
-import com.company.service.subjectService.SubjectITF;
-import com.company.service.subjectService.SubjectImpl;
+import com.company.entity.GpaManagement;
+import com.company.entity.Student;
+import com.company.entity.Subject;
+import com.company.service.StudentService.StudentService;
+import com.company.service.gpaStudentManagement.GPAStudentMngService;
+import com.company.service.subjectService.SubjectService;
+import com.company.utils.DataUtil;
+import com.company.utils.InputNumberUtil;
+import com.company.utils.file.FileUtil;
+public class Controller {
+    public static FileUtil fileUtil = new FileUtil();
+    public static StudentService studentService = new StudentService();
+    public static SubjectService subjectService = new SubjectService();
+    public static GPAStudentMngService gpaStudentMngService = new GPAStudentMngService();
+    public Controller() {
 
-import java.io.IOException;
-import java.util.Scanner;
-
-public class controller {
-
-    private GSMInterface gsmInterface;
-    private IStudentSer iStudentSer;
-    private SubjectITF isubjectITF;
-
-    public controller() {
-        gsmInterface = new GSMImpl();
-        iStudentSer = new ImplStudentSer();
-        isubjectITF = new SubjectImpl();
     }
 
-    public void processTask() {
+    private static void initializeDataFromFile(){
+        Object subjectData = fileUtil.readDataFromFile(SubjectService.FILE_NAME);
+        SubjectService.subjects = DataUtil.isNullOrEmpty(subjectData) ? new Subject[100] : (Subject[]) subjectData;
 
-        Scanner sc = new Scanner(System.in);
+        Object studentData = fileUtil.readDataFromFile(StudentService.FILE_NAME);
+        StudentService.students = DataUtil.isNullOrEmpty(studentData) ? new Student[100] : (Student[]) studentData;
+
+        Object transcriptData = fileUtil.readDataFromFile(GPAStudentMngService.FILE_NAME);
+        GPAStudentMngService.gpaManagements = DataUtil.isNullOrEmpty(transcriptData) ? new GpaManagement[100] : (GpaManagement[]) transcriptData;
+    }
+    public void processTask() {
+        initializeDataFromFile();
         int choose = 0;
         do {
             showMenu();
-            boolean check = false;
-            try {
-                choose = sc.nextInt();
-
-                switch (choose) {
-                    case 1:
-                        iStudentSer.returnStudentList();
-                        try {
-                            iStudentSer.recordFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        iStudentSer.showInfoStudent(iStudentSer.getStudents());
-                        break;
-                    case 2:
-                        isubjectITF.returnSubjectList();
-                        try {
-                            isubjectITF.recordFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        isubjectITF.showInfoSubject(isubjectITF.getSubjects());
-                        break;
-                    case 3:
-                        try {
-                            gsmInterface.inputMark();
-                            gsmInterface.recordFile();
-                            gsmInterface.showInfoGSM(gsmInterface.getGpaManagements());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case 4:
-                        gsmInterface.sortGpaTranscriptFromStudentname();
-                        break;
-                    case 5:
-                        gsmInterface.calcAvgmark();
-                        break;
-                    case 6:
-                        iStudentSer.readFile();
-                        iStudentSer.showInfoStudent(iStudentSer.getStudents());
-                        break;
-                    case 7:
-                        isubjectITF.readFile();
-                        isubjectITF.showInfoSubject(isubjectITF.getSubjects());
-                        break;
-                    case 8:
-                        gsmInterface.readFile();
-                        break;
-                    case 0:
-                        System.out.println("finish");
-                        return;
-                    default:
-                        System.out.println("Please re-type correct selection");
-                        break;
-                }
-            } catch (Exception e) {
-                System.err.println("Invalid number");
-                processTask();
+            choose = InputNumberUtil.returnInt();
+            switch (choose) {
+                case 1:
+                    studentService.addStudents();
+                    break;
+                case 2:
+                    subjectService.addSubjects();
+                    break;
+                case 3:
+                  gpaStudentMngService.inputMark();
+                    break;
+                case 4:
+                	gpaStudentMngService.sortGpaFromStudentname();
+                    break;
+                case 5:
+                	gpaStudentMngService.calculateGpa();
+                    break;
+                case 6:
+                    studentService.showStudents();
+                    break;
+                case 7:
+                    subjectService.showSubjects();
+                    break;
+                case 8:
+                    gpaStudentMngService.showGpaTrans();
+                    break;
+                case 10:
+                    System.out.println("finish");
+                    return;
+                default:
+                    System.out.println("Please re-type correct selection");
+                    break;
             }
-        } while (choose != 0);
-    }
+    } while(choose !=0);
+}
 
     public static void showMenu() {
         System.out.println("/****************************************/");
         System.out.println("1. Add student.\n" + "2. Add subject.\n" + "3. Input mark.\n"
                 + "4. Sort Gpa managements from student name.\n" + "5. Calculate average mark.\n" + "6. Load all students from file.\n"
-                + "7. Load all subjects form file.\n" + "8. Load all Gpa managements form file.\n" + "0. Exit.");
+                + "7. Load all subjects form file.\n" + "8. Load all Gpa managements form file.\n" + "10. Exit.");
         System.out.println("/****************************************/");
     }
 

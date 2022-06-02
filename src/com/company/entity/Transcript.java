@@ -1,7 +1,13 @@
 package com.company.entity;
 
-public class Transcript {
-    private float mark;
+import java.io.Serializable;
+
+public class Transcript implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private float mark;
     private Subject subject;
 
     public Transcript() {

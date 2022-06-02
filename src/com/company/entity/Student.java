@@ -1,10 +1,18 @@
 package com.company.entity;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Student extends Person {
+public class Student extends Person implements Serializable {
 
-    private int studentId = 10000;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public static int ID = 10000;
+
+    private int studentId;
     private String className;
 
     public Student() {
@@ -36,6 +44,8 @@ public class Student extends Person {
     @Override
     public void input() {
         super.input();
+        this.studentId = this.ID;
+        this.ID++;
         Scanner sc = new Scanner(System.in);
         System.out.println("Pleas type class name ");
         className = sc.nextLine();

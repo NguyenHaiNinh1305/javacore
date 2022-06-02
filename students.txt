@@ -1,2 +1,0 @@
-studentId=10000, fullName=anh, address=1, phoneNumber=1, className=1
-studentId=10001, fullName=banh, address=1, phoneNumber=1, className=2

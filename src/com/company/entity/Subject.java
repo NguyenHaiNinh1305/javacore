@@ -1,8 +1,16 @@
 package com.company.entity;
 
+import com.company.utils.InputNumberUtil;
+
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Subject {
+public class Subject implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static int ID;
     private int subjectId = 10000;
     private String subjectName;
     private int creadits;
@@ -56,48 +64,30 @@ public class Subject {
         System.out.println("Input subject name: ");
         sc = new Scanner(System.in);
         subjectName = sc.nextLine();
+
+        System.out.println("Input number of creadits: ");
+        creadits = InputNumberUtil.returnInt();
+        System.out.println("Pleas choose type reader 1-generalSubject 2-basicSubject 3-specializedSubject ");
         boolean check = false;
         do {
-            try {
-                System.out.println("Input number of creadits: ");
-                Scanner sc;
-                sc = new Scanner(System.in);
-                creadits = sc.nextInt();
-                check = true;
-            } catch (Exception e) {
-                System.err.println("invalid number");
-            }
-        } while(check == false);
-
-
-        System.out.println("Pleas choose type reader 1-generalSubject 2-basicSubject 3-specializedSubject ");
-
-        check = false;
-        do {
-            try {
-                sc = new Scanner(System.in);
-                int choose = sc.nextInt();
-                switch (choose) {
-
-                    case 1:
-                        typeSubject = TypeSubject.generalSubject;
-                        check = true;
-                        break;
-                    case 2:
-                        typeSubject = TypeSubject.basicSubject;
-                        check = true;
-                        break;
-                    case 3:
-                        typeSubject = TypeSubject.specializedSubject;
-                        check = true;
-                        break;
-                    default:
-                        System.out.println("Have no selection for this number");
-                        System.out.println(("Please re-type!"));
-                        break;
-                }
-            }catch(Exception e){
-                System.err.println("invalid number");
+            int choose = InputNumberUtil.returnInt();
+            switch (choose) {
+                case 1:
+                    typeSubject = TypeSubject.generalSubject;
+                    check = true;
+                    break;
+                case 2:
+                    typeSubject = TypeSubject.basicSubject;
+                    check = true;
+                    break;
+                case 3:
+                    typeSubject = TypeSubject.specializedSubject;
+                    check = true;
+                    break;
+                default:
+                    System.out.println("Have no selection for this number");
+                    System.out.println(("Please re-type!"));
+                    break;
             }
         } while (check == false);
     }
@@ -107,9 +97,9 @@ public class Subject {
     public String toString() {
         return
                 "subjectId=" + subjectId +
-                ", subjectName=" + subjectName  +
-                ", creadits=" + creadits +
-                ", typeSubject=" + typeSubject
+                        ", subjectName=" + subjectName +
+                        ", creadits=" + creadits +
+                        ", typeSubject=" + typeSubject
                 ;
     }
 

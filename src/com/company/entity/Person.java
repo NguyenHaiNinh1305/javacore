@@ -2,11 +2,16 @@ package com.company.entity;
 
 import com.company.service.PersonInterface;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Person implements PersonInterface {
+public class Person implements PersonInterface, Serializable {
 
-    private String fullName;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String fullName;
     private String address;
     private String phoneNumber;
 
